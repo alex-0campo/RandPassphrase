@@ -8,3 +8,5 @@ Note: Save Get-RandPassp eff_large_wordlist.txt
 Credits:
 http://world.std.com/~reinhold/diceware.html
 http://world.std.com/~reinhold/diceware.html
+
+dev_workpc : add features
