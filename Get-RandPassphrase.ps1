@@ -81,7 +81,7 @@ do {
 
     # $newPassPhrase
     Write-Host "Your random passphrase is: $($newPassPhrase)"
-    $reply = Read-Host "Do you want to create a new one? Y/N"
+    $reply = Read-Host "Do you want to create a new passphrase? Y/N"
     "`r`n"
 
     if ($reply.ToUpper() -eq "N" -or $reply.ToUpper() -eq "NO" )
