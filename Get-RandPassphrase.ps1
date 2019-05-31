@@ -63,13 +63,19 @@ function randomSpecialChar
     return [string]$($specialCharArr -join "")
 }
 
-$listPath = $PSScriptRoot + "\eff_large_wordlist.txt"
-$arrList = Get-Content -Path $listPath 
+Clear-Host
+
+Push-Location
+Set-Location $PSScriptRoot
+
+# $listPath = $PSScriptRoot + "\eff_large_wordlist.txt"
+$arrList = Get-Content -Path $($PSScriptRoot + "\eff_large_wordlist.txt")
 
 [bool]$accept = $false
 
 do {
-    Clear-Host
+    
+    
     $passPhrase = virtualDice -wordList $arrList
     $nums = randomDigit
     $specialChars = randomSpecialChar
@@ -81,12 +87,13 @@ do {
 
     # $newPassPhrase
     Write-Host "Your random passphrase is: $($newPassPhrase)"
-    $reply = Read-Host "Do you want to create a new passphrase? Y/N"
+    $reply = Read-Host "Do you want to create a new passphrase? y|yes / n|no"
     "`r`n"
 
     if ($reply.ToUpper() -eq "N" -or $reply.ToUpper() -eq "NO" )
     {
         $accept = $true
+        Pop-Location
         exit
     }
     else
@@ -97,3 +104,4 @@ do {
     Write-Debug "Random Passphrase Length: $($newPassPhrase.Length) chars"
 } While ( $accept -eq $false )
 
+Pop-Location
