@@ -1,4 +1,7 @@
-﻿function virtualDice
+﻿[CmdletBinding()]
+param()
+
+function virtualDice
 {
     [CmdletBinding()]
     param(
@@ -60,35 +63,37 @@ function randomSpecialChar
     return [string]$($specialCharArr -join "")
 }
 
-Clear-Host
 $listPath = $PSScriptRoot + "\eff_large_wordlist.txt"
 $arrList = Get-Content -Path $listPath 
 
-<# $count = 3
-$passPhrase = @()
-for($j=1;$j -le $count; $j++){
-    $passPhrase += virtualDice -wordList $arrList
-} #>
+[bool]$accept = $false
 
-$passPhrase = virtualDice -wordList $arrList
-$nums = randomDigit
-$specialChars = randomSpecialChar
+do {
+    Clear-Host
+    $passPhrase = virtualDice -wordList $arrList
+    $nums = randomDigit
+    $specialChars = randomSpecialChar
 
-$word0 = $($passPhrase[0].Substring(0,1)).ToUpper() + $($passPhrase[0].Substring(1,$($passPhrase[0].Length)-1))
-$word1 = $($passPhrase[1].Substring(0,1)).ToUpper() + $($passPhrase[1].Substring(1,$($passPhrase[1].Length)-1))
-# $word2 = $($passPhrase[2].Substring(0,1)).ToUpper() + $($passPhrase[2].Substring(1,$($passPhrase[2].Length)-1))
+    $word0 = $($passPhrase[0].Substring(0,1)).ToUpper() + $($passPhrase[0].Substring(1,$($passPhrase[0].Length)-1))
+    $word1 = $($passPhrase[1].Substring(0,1)).ToUpper() + $($passPhrase[1].Substring(1,$($passPhrase[1].Length)-1))
 
-$newPassPhrase = $word0 + " " + $specialChars + $nums + " " + $word1 # + " " + $word2
+    $newPassPhrase = $word0 + " " + $specialChars + $nums + " " + $word1
 
-$newPassPhrase
-$newPassPhrase.Length
+    # $newPassPhrase
+    Write-Host "Your random passphrase is: $($newPassPhrase)"
+    $reply = Read-Host "Do you want to create a new one? Y/N"
+    "`r`n"
 
-# [string]$newPassphrase = $passPhrase -join " "
+    if ($reply.ToUpper() -eq "N" -or $reply.ToUpper() -eq "NO" )
+    {
+        $accept = $true
+        exit
+    }
+    else
+    {
+        # repeat loop and generate a new passphrase
+    }
 
-# insert random digit 
+    Write-Debug "Random Passphrase Length: $($newPassPhrase.Length) chars"
+} While ( $accept -eq $false )
 
-
-# inserr random special character
-
-# $newPassphrase.length
-# $newPassphrase
